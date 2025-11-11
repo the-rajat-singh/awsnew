@@ -1,12 +1,11 @@
-provider "aws" {
-  region = "ap-south-1"
+resource "azurerm_resource_group" "rg" {
+  name     = var.resource_group_name
+  location = var.location
 }
 
-resource "aws_instance" "test_ec2" {
-  ami           = "ami-0ad21ae1d0696ad58"   # Amazon Linux 2 (Mumbai)
-  instance_type = "t2.micro"
-
-  tags = {
-    Name = "Test-EC2"
-  }
+resource "azurerm_virtual_network" "vnet" {
+  name                = var.vnet_name
+  address_space       = ["10.0.0.0/16"]
+  location            = var.location
+  resource_group_name = azurerm_resource_group.rg.name
 }
